@@ -26,8 +26,28 @@ const employeeQuestions = [
         type: "list",
         name: "role",
         message: "What is the employee's role? (Required)",
-        choices: ["Manager", "Engineer", "Intern", "Done adding team members"],
+        choices: ["Manager", "Engineer", "Intern"],
     },
+    // {
+    //     type: "confirm",
+    //     name: "confirmExit",
+    //     message: "Are you sure you are done adding team members?",
+    //     when: ({ role }) => {
+    //         if (role === "Done adding team members") {
+    //             return true
+    //         } else {
+    //             return false
+    //         }
+    //     },
+    //     validate: (userInput) => {
+    //         if (userInput) {
+    //             return Promise.resolve();
+    //         } else {
+    //             console.log("Please enter the employee's name.");
+    //             return true;
+    //         }
+    //     }
+    // },
     {
         type: "input",
         name: "name",
@@ -122,26 +142,12 @@ const employeeQuestions = [
                 return false;
             }
         }
-    },
-    {
-        type: "confirm",
-        name: "confirmExit",
-        message: "Are you sure you are done adding team members?",
-        when: ({ role }) => {
-            if (role === "Done adding team members") {
-                return true
-            } else {
-                return false
-            }
-        }
     }
-
 ]
 
 let answerArray = []
 let employeeArray = []
 
-// 
 async function questions() {
     let count = await inquirer.prompt([{
         type: "number",
@@ -149,26 +155,40 @@ async function questions() {
         message: "How many employees are you going to enter?",
         default: 3
     }])
-    console.log(count.employeeCount)
+
+
+
+
+    // start with add another? true - ask questions, false - break loop
+
     for (let i = 0; i < count.employeeCount; i++) {
         let response = await inquirer.prompt(employeeQuestions)
         answerArray.push(response)
-    }
-    // console.log(response)
-    // answerArray.push(response)
-    // var response = await inquirer.prompt(employeeQuestions)
-    // answerArray.push(response)
+        let confirm = await inquirer.prompt({
+            type: "confirm",
+            name: "confirmContinue",
+            message: "Do you want to continue adding employees?"
+        })
+        // console.log(confirm.confirmContinue)
+        if (!confirm.confirmContinue) {
+            break;
+        }
 
-    // console.log(answerArray)
-    // console.log(answerArray.length)
+    }
+
+    // let check = true;
+    // while (check) {
+    //     let response = await inquirer.prompt(employeeQuestions)
+    //     console.log(response.role)
+    //     answerArray.push(response)
+    // }
+
 
     let cardHTML = []
 
-    for (i in answerArray) {
-        // console.log(answerArray[i])
+    for (let i in answerArray) {
         switch (answerArray[i].role) {
             case "Manager":
-                // cardHTML.push(generateCard(answerArray[i]))
 
                 let manager = new Manager(answerArray[i].name,
                     answerArray[i].id,
@@ -181,7 +201,6 @@ async function questions() {
                 break;
 
             case "Engineer":
-                // cardHTML.push(generateCard(answerArray[i]))
 
                 let engineer = new Engineer(answerArray[i].name,
                     answerArray[i].id,
@@ -195,7 +214,6 @@ async function questions() {
                 break;
 
             case "Intern":
-                // cardHTML.push(generateCard(answerArray[i]))
 
                 let intern = new Intern(answerArray[i].name,
                     answerArray[i].id,
@@ -205,27 +223,21 @@ async function questions() {
 
                 cardHTML.push(generateCard(intern))
 
-
                 break;
 
             default:
-                // cardHTML.push(generateCard(answerArray[i]))
 
-                let employee = new employee(answerArray[i].name,
+                let employee = new Employee(answerArray[i].name,
                     answerArray[i].id,
                     answerArray[i].email)
                 employeeArray.push(employee)
 
                 cardHTML.push(generateCard(employee))
 
-
                 break;
         }
-        // console.log(cardHTML)
-
     }
 
-    // console.log(cardHTML)
     let teamName = await inquirer.prompt({
         type: "input",
         name: "teamName",
@@ -233,8 +245,6 @@ async function questions() {
     })
     let pageHTML = generatePage(cardHTML.join(""), teamName.teamName)
     writeFile(pageHTML)
-    // console.log(employeeArray)
-
 
 }
 

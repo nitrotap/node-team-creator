@@ -46,15 +46,15 @@ const generateCard = function (employee) {
     style="margin: 10px"
   >
     <div class="employee-name bg-dark text-light">
-      <h4 style="padding: 10px">${employee.name}</h4>
+      <h4 style="padding: 10px">${employee.getName()}</h4>
       <h4 style="padding: 10px">${employee.getRole()}</h4>
 
     </div>
     <div class="employee-info">
-      <h6 style="padding: 10px">ID: ${employee.id}</h6>
+      <h6 style="padding: 10px">ID: ${employee.getId()}</h6>
       <h6 style="padding: 10px">
         Email:
-        <a href="mailTo:${employee.email}">${employee.email}</a>
+        <a href="mailTo:${employee.getEmail()}">${employee.getEmail()}</a>
       </h6>
       <h6 style="padding: 10px">
         ${generateRoleSection(employee)}
@@ -67,15 +67,15 @@ const generateCard = function (employee) {
 const generateRoleSection = function (employee) {
   switch (employee.getRole()) {
     case "Manager":
-      return `Office Number: ${employee.officeNumber}`
+      return `Office Number: ${employee.getOfficeNumber()}`
       break;
 
     case "Engineer":
-      return `GitHub: ${employee.gitHub}`
+      return `GitHub: <a href="github.com/${employee.getGitHub()}">github.com/${employee.getGitHub()}</a>`
       break;
 
     case "Intern":
-      return `School: ${employee.school}`
+      return `School: ${employee.getSchool()}`
       break;
 
     default:
