@@ -8,24 +8,29 @@ const Engineer = require("./lib/Engineer")
 const Intern = require("./lib/Intern")
 const Manager = require("./lib/Manager")
 
+const { generatePage, generateCard } = require("./src/generateHTML.js")
+const { copyFile, writeFile } = require("./utils/fileWriter.js")
 
 
 // first build team manager
 // then build other employees
 // exit when 
 
+// use inquirer to set up employee objects
+// add employee objects into html
+// write html file with fs
 
 const employeeQuestions = [
     // name, id, email, school, github, officeNumber
     {
         type: "list",
-        name: "employeeRole",
+        name: "role",
         message: "What is the employee's role? (Required)",
         choices: ["Manager", "Engineer", "Intern", "Done adding team members"],
     },
     {
         type: "input",
-        name: "employeeName",
+        name: "name",
         message: "What is the employee's name? (Required)",
         validate: (userInput) => {
             if (userInput) {
@@ -38,7 +43,7 @@ const employeeQuestions = [
     },
     {
         type: "input",
-        name: "employeeId",
+        name: "id",
         message: "What is the employee's Id? (Required)",
         validate: (userInput) => {
             if (userInput) {
@@ -50,7 +55,7 @@ const employeeQuestions = [
     },
     {
         type: "input",
-        name: "employeeEmail",
+        name: "email",
         message: "What is the employee's email address? (Required)",
         validate: (userInput) => {
             if (userInput) {
@@ -64,8 +69,8 @@ const employeeQuestions = [
         type: "input",
         name: "officeNumber",
         message: "What is the manager's office number? (Required)",
-        when: ({ employeeRole }) => {
-            if (employeeRole === "Manager") {
+        when: ({ role }) => {
+            if (role === "Manager") {
                 return true
             } else {
                 return false
@@ -83,8 +88,8 @@ const employeeQuestions = [
         type: "input",
         name: "gitHub",
         message: "What is the link to the engineer's github profile? (Required)",
-        when: ({ employeeRole }) => {
-            if (employeeRole === "Engineer") {
+        when: ({ role }) => {
+            if (role === "Engineer") {
                 return true
             } else {
                 return false
@@ -103,8 +108,8 @@ const employeeQuestions = [
         type: "input",
         name: "school",
         message: "What is the current school the intern is attending? (Required)",
-        when: ({ employeeRole }) => {
-            if (employeeRole === "Intern") {
+        when: ({ role }) => {
+            if (role === "Intern") {
                 return true
             } else {
                 return false
@@ -122,6 +127,7 @@ const employeeQuestions = [
 ]
 
 let answerArray = []
+let employeeArray = []
 
 // 
 async function questions() {
@@ -144,9 +150,49 @@ async function questions() {
     console.log(answerArray)
     console.log(answerArray.length)
 
-    for (employee in answerArray) {
+    let cardHTML = []
+
+    for (i in answerArray) {
+        console.log(answerArray[i])
+        switch (answerArray[i].role) {
+            case "Manager":
+                cardHTML.push(generateCard(answerArray[i]))
+                // generatePage()
+
+
+
+                // let manager = new Manager(answerArray[i].employeeName,
+                //     answerArray[i].employeeId,
+                //     answerArray[i].employeeEmail,
+                //     answerArray[i].officeNumber)
+                // employeeArray.push(manager)
+                break;
+
+            case "Engineer":
+                cardHTML.push(generateCard(answerArray[i]))
+
+
+                break;
+
+            case "Intern":
+                cardHTML.push(generateCard(answerArray[i]))
+
+                break;
+
+            default:
+                cardHTML.push(generateCard(answerArray[i]))
+
+
+                break;
+        }
+        // console.log(cardHTML)
 
     }
+
+    console.log(cardHTML)
+    let pageHTML = generatePage(cardHTML, "My Team Name")
+    writeFile(pageHTML)
+
 
 }
 

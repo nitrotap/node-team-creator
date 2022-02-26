@@ -3,8 +3,8 @@
  * on a single html page, generate a single card for each employee
 */
 
-const generatePage = function (args) {
-    return `
+const generatePage = function (cardSection, teamName) {
+  return `
     <!DOCTYPE html>
     <html lang="en">
       <head>
@@ -31,7 +31,7 @@ const generatePage = function (args) {
         </header>
     
         <main class="row">
-            ${generateCardSection(employee)}
+            ${cardSection}
         
         </main>
       </body>
@@ -40,7 +40,7 @@ const generatePage = function (args) {
 }
 
 const generateCard = function (employee) {
-    return `
+  return `
     <article
     class="employee-card border border-dark rounded"
     style="margin: 10px"
@@ -56,7 +56,7 @@ const generateCard = function (employee) {
         <a href="mailTo:${employee.email}">${employee.email}</a>
       </h6>
       <h6 style="padding: 10px">
-        ${employee.role.function}: ${employee.role.special}
+        ${employee.role}: ${employee.role}
       </h6>
     </div>
   </article>
@@ -67,5 +67,5 @@ const generateCardSection = function (employeeArray) {
 
 }
 
-
+module.exports = { generateCard, generatePage };
 
