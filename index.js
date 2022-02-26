@@ -107,7 +107,7 @@ const employeeQuestions = [
     {
         type: "input",
         name: "gitHub",
-        message: "What is the link to the engineer's github profile? (Required)",
+        message: "What is the the engineer's github username? (Required)",
         when: ({ role }) => {
             if (role === "Engineer") {
                 return true
@@ -241,7 +241,7 @@ async function questions() {
     let teamName = await inquirer.prompt({
         type: "input",
         name: "teamName",
-        message: "what is your team's name?"
+        message: "What is your team's name?"
     })
     let pageHTML = generatePage(cardHTML.join(""), teamName.teamName)
     writeFile(pageHTML)

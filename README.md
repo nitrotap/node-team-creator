@@ -41,7 +41,9 @@ npm run test
 
 ## Screen Shots
 
-<img src="./assets/images/" width="50%" height="50%">
+<img src="./assets/images/cli-screen-shot.png" width="50%" height="50%">
+
+<img src="./assets/images/page-screen-shot.png" width="50%" height="50%">
 
 ## Questions
 
