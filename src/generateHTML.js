@@ -1,7 +1,4 @@
-/*
- * 
- * on a single html page, generate a single card for each employee
-*/
+/* on a single html page, generate a single card for each employee */
 
 const generatePage = function (cardSection, teamName) {
   return `
@@ -82,8 +79,6 @@ const generateRoleSection = function (employee) {
       return `Role: Employee`
       break;
   }
-
-
 }
 
 module.exports = { generateCard, generatePage };
