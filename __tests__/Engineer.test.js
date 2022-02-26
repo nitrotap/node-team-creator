@@ -12,7 +12,7 @@ test("creates engineer object", () => {
 
 test("gets engineer's github information", () => {
     const engineer = new Engineer("Kartik", 1, "kartikinpublic@gmail.com", "nitrotap")
-    expect(engineer.getGithub()).toBe("nitrotap")
+    expect(engineer.getGitHub()).toBe("nitrotap")
 })
 
 test("gets engineer's role", () => {
