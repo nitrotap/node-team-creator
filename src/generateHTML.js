@@ -26,7 +26,7 @@ const generatePage = function (cardSection, teamName) {
       </head>
     
       <body class="container">
-        <header class="row d-flex justify-content-center">
+        <header class="row d-flex justify-content-center bg-dark text-light">
           <h1 class="">${teamName}</h1>
         </header>
     
@@ -56,14 +56,32 @@ const generateCard = function (employee) {
         <a href="mailTo:${employee.email}">${employee.email}</a>
       </h6>
       <h6 style="padding: 10px">
-        ${employee.role}: ${employee.role}
+        ${generateRoleSection(employee)}
       </h6>
     </div>
   </article>
 `
 }
 
-const generateCardSection = function (employeeArray) {
+const generateRoleSection = function (employee) {
+  switch (employee.role) {
+    case "Manager":
+      return `Office Number: ${employee.officeNumber}`
+      break;
+
+    case "Engineer":
+      return `GitHub: ${employee.gitHub}`
+      break;
+
+    case "Intern":
+      return `School: ${employee.school}`
+      break;
+
+    default:
+      return `Role: Employee`
+      break;
+  }
+
 
 }
 

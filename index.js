@@ -9,7 +9,7 @@ const Intern = require("./lib/Intern")
 const Manager = require("./lib/Manager")
 
 const { generatePage, generateCard } = require("./src/generateHTML.js")
-const { copyFile, writeFile } = require("./utils/fileWriter.js")
+const { writeFile } = require("./utils/fileWriter.js")
 
 
 // first build team manager
@@ -190,7 +190,7 @@ async function questions() {
     }
 
     console.log(cardHTML)
-    let pageHTML = generatePage(cardHTML, "My Team Name")
+    let pageHTML = generatePage(cardHTML.join(""), "My Team Name")
     writeFile(pageHTML)
 
 
