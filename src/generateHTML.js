@@ -47,7 +47,8 @@ const generateCard = function (employee) {
   >
     <div class="employee-name bg-dark text-light">
       <h4 style="padding: 10px">${employee.name}</h4>
-      <h4 style="padding: 10px">${employee.role}</h4>
+      <h4 style="padding: 10px">${employee.getRole()}</h4>
+
     </div>
     <div class="employee-info">
       <h6 style="padding: 10px">ID: ${employee.id}</h6>
@@ -64,7 +65,7 @@ const generateCard = function (employee) {
 }
 
 const generateRoleSection = function (employee) {
-  switch (employee.role) {
+  switch (employee.getRole()) {
     case "Manager":
       return `Office Number: ${employee.officeNumber}`
       break;

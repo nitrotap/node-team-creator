@@ -122,6 +122,18 @@ const employeeQuestions = [
                 return false;
             }
         }
+    },
+    {
+        type: "confirm",
+        name: "confirmExit",
+        message: "Are you sure you are done adding team members?",
+        when: ({ role }) => {
+            if (role === "Done adding team members") {
+                return true
+            } else {
+                return false
+            }
+        }
     }
 
 ]
@@ -147,40 +159,64 @@ async function questions() {
     // var response = await inquirer.prompt(employeeQuestions)
     // answerArray.push(response)
 
-    console.log(answerArray)
-    console.log(answerArray.length)
+    // console.log(answerArray)
+    // console.log(answerArray.length)
 
     let cardHTML = []
 
     for (i in answerArray) {
-        console.log(answerArray[i])
+        // console.log(answerArray[i])
         switch (answerArray[i].role) {
             case "Manager":
-                cardHTML.push(generateCard(answerArray[i]))
-                // generatePage()
+                // cardHTML.push(generateCard(answerArray[i]))
 
+                let manager = new Manager(answerArray[i].name,
+                    answerArray[i].id,
+                    answerArray[i].email,
+                    answerArray[i].officeNumber)
+                employeeArray.push(manager)
 
+                cardHTML.push(generateCard(manager))
 
-                // let manager = new Manager(answerArray[i].employeeName,
-                //     answerArray[i].employeeId,
-                //     answerArray[i].employeeEmail,
-                //     answerArray[i].officeNumber)
-                // employeeArray.push(manager)
                 break;
 
             case "Engineer":
-                cardHTML.push(generateCard(answerArray[i]))
+                // cardHTML.push(generateCard(answerArray[i]))
+
+                let engineer = new Engineer(answerArray[i].name,
+                    answerArray[i].id,
+                    answerArray[i].email,
+                    answerArray[i].gitHub)
+                employeeArray.push(engineer)
+
+                cardHTML.push(generateCard(engineer))
 
 
                 break;
 
             case "Intern":
-                cardHTML.push(generateCard(answerArray[i]))
+                // cardHTML.push(generateCard(answerArray[i]))
+
+                let intern = new Intern(answerArray[i].name,
+                    answerArray[i].id,
+                    answerArray[i].email,
+                    answerArray[i].school)
+                employeeArray.push(intern)
+
+                cardHTML.push(generateCard(intern))
+
 
                 break;
 
             default:
-                cardHTML.push(generateCard(answerArray[i]))
+                // cardHTML.push(generateCard(answerArray[i]))
+
+                let employee = new employee(answerArray[i].name,
+                    answerArray[i].id,
+                    answerArray[i].email)
+                employeeArray.push(employee)
+
+                cardHTML.push(generateCard(employee))
 
 
                 break;
@@ -189,9 +225,15 @@ async function questions() {
 
     }
 
-    console.log(cardHTML)
-    let pageHTML = generatePage(cardHTML.join(""), "My Team Name")
+    // console.log(cardHTML)
+    let teamName = await inquirer.prompt({
+        type: "input",
+        name: "teamName",
+        message: "what is your team's name?"
+    })
+    let pageHTML = generatePage(cardHTML.join(""), teamName.teamName)
     writeFile(pageHTML)
+    // console.log(employeeArray)
 
 
 }
