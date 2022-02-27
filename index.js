@@ -28,26 +28,6 @@ const employeeQuestions = [
         message: "What is the employee's role? (Required)",
         choices: ["Manager", "Engineer", "Intern"],
     },
-    // {
-    //     type: "confirm",
-    //     name: "confirmExit",
-    //     message: "Are you sure you are done adding team members?",
-    //     when: ({ role }) => {
-    //         if (role === "Done adding team members") {
-    //             return true
-    //         } else {
-    //             return false
-    //         }
-    //     },
-    //     validate: (userInput) => {
-    //         if (userInput) {
-    //             return Promise.resolve();
-    //         } else {
-    //             console.log("Please enter the employee's name.");
-    //             return true;
-    //         }
-    //     }
-    // },
     {
         type: "input",
         name: "name",
@@ -149,47 +129,39 @@ let answerArray = []
 let employeeArray = []
 
 async function questions() {
-    let count = await inquirer.prompt([{
-        type: "number",
-        name: "employeeCount",
-        message: "How many employees are you going to enter?",
-        default: 3
-    }])
+    console.log("Welcome to node-team-creator!")
+    let teamName = await inquirer.prompt({
+        type: "input",
+        name: "teamName",
+        message: "What is your team's name?",
+        // default: "the BEST team",
+        validate: (userInput) => {
+            if (userInput) {
+                return true
+            } else {
+                return false;
+            }
+        }
+    })
 
-
-
-
-    // start with add another? true - ask questions, false - break loop
-
-    for (let i = 0; i < count.employeeCount; i++) {
+    let confirm = true;
+    while (confirm) {
         let response = await inquirer.prompt(employeeQuestions)
         answerArray.push(response)
-        let confirm = await inquirer.prompt({
+        confirm = await inquirer.prompt({
             type: "confirm",
             name: "confirmContinue",
             message: "Do you want to continue adding employees?"
         })
-        // console.log(confirm.confirmContinue)
         if (!confirm.confirmContinue) {
-            break;
+            confirm = false;
         }
-
     }
-
-    // let check = true;
-    // while (check) {
-    //     let response = await inquirer.prompt(employeeQuestions)
-    //     console.log(response.role)
-    //     answerArray.push(response)
-    // }
-
-
     let cardHTML = []
 
     for (let i in answerArray) {
         switch (answerArray[i].role) {
             case "Manager":
-
                 let manager = new Manager(answerArray[i].name,
                     answerArray[i].id,
                     answerArray[i].email,
@@ -201,7 +173,6 @@ async function questions() {
                 break;
 
             case "Engineer":
-
                 let engineer = new Engineer(answerArray[i].name,
                     answerArray[i].id,
                     answerArray[i].email,
@@ -210,11 +181,9 @@ async function questions() {
 
                 cardHTML.push(generateCard(engineer))
 
-
                 break;
 
             case "Intern":
-
                 let intern = new Intern(answerArray[i].name,
                     answerArray[i].id,
                     answerArray[i].email,
@@ -238,11 +207,7 @@ async function questions() {
         }
     }
 
-    let teamName = await inquirer.prompt({
-        type: "input",
-        name: "teamName",
-        message: "What is your team's name?"
-    })
+
     let pageHTML = generatePage(cardHTML.join(""), teamName.teamName)
     writeFile(pageHTML)
 
