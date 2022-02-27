@@ -1,5 +1,5 @@
 /*
- * 
+ * main js file for node-team-generator
 */
 const inquirer = require('inquirer');
 
@@ -11,17 +11,8 @@ const Manager = require("./lib/Manager")
 const { generatePage, generateCard } = require("./src/generateHTML.js")
 const { writeFile } = require("./utils/fileWriter.js")
 
-
-// first build team manager
-// then build other employees
-// exit when 
-
-// use inquirer to set up employee objects
-// add employee objects into html
-// write html file with fs
-
 const employeeQuestions = [
-    // name, id, email, school, github, officeNumber
+    // role, name, id, email, school, github, officeNumber
     {
         type: "list",
         name: "role",
@@ -207,12 +198,8 @@ async function questions() {
         }
     }
 
-
     let pageHTML = generatePage(cardHTML.join(""), teamName.teamName)
     writeFile(pageHTML)
-
 }
 
-// need a promise chain that ends with the html file being generated
 questions()
-
