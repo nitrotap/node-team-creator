@@ -18,7 +18,6 @@ const generatePage = function (cardSection, teamName) {
           referrerpolicy="no-referrer"
         />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-        <link rel="stylesheet" href="./assets/css/styles.css" />
 
     
         <title>${teamName}</title>
