@@ -23,7 +23,7 @@ A command-line profile generator using node.js to automatically create personali
 npm i
 ```
 
-## Usage Information
+## Usage
 
 ```
 node index.js
