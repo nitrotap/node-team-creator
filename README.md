@@ -37,7 +37,7 @@ npm run test
 
 ## Walk-through
 
-[Walk-through Video](https://drive.google.com/file/d/1-KRwuR_gVJh-g8rVL7_zHTXiLEchF8BI/view)
+<a href="https://drive.google.com/file/d/1-KRwuR_gVJh-g8rVL7_zHTXiLEchF8BI/view" target="_blank">Walk-through Video</a>
 
 ## Screen Shots
 
