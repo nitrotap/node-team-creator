@@ -17,7 +17,9 @@ const generatePage = function (cardSection, teamName) {
           crossorigin="anonymous"
           referrerpolicy="no-referrer"
         />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
         <link rel="stylesheet" href="./assets/css/styles.css" />
+
     
         <title>${teamName}</title>
       </head>
@@ -27,7 +29,7 @@ const generatePage = function (cardSection, teamName) {
           <h1 class="">${teamName}</h1>
         </header>
     
-        <main class="row">
+        <main class="row d-flex justify-content-center">
             ${cardSection}
         
         </main>
@@ -44,7 +46,8 @@ const generateCard = function (employee) {
   >
     <div class="employee-name bg-dark text-light">
       <h4 style="padding: 10px">${employee.getName()}</h4>
-      <h4 style="padding: 10px">${employee.getRole()}</h4>
+
+      <h4 style="padding: 10px">${generateIcon(employee)}  ${employee.getRole()}</h4>
 
     </div>
     <div class="employee-info">
@@ -59,6 +62,26 @@ const generateCard = function (employee) {
     </div>
   </article>
 `
+}
+
+const generateIcon = function (employee) {
+  switch (employee.getRole()) {
+    case "Manager":
+      return `<i class="bi bi-bag"></i>`
+      break;
+
+    case "Engineer":
+      return `<i class="bi bi-gear"></i>`
+      break;
+
+    case "Intern":
+      return `<i class="bi bi-calculator"></i>`
+      break;
+
+    default:
+      return ``
+      break;
+  }
 }
 
 const generateRoleSection = function (employee) {
