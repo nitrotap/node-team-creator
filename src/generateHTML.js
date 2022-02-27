@@ -68,7 +68,7 @@ const generateRoleSection = function (employee) {
       break;
 
     case "Engineer":
-      return `GitHub: <a href="https://www.github.com/${employee.getGitHub()}">${employee.getGitHub()}</a>`
+      return `GitHub: <a href="https://www.github.com/${employee.getGitHub()}" target="_blank">${employee.getGitHub()}</a>`
       break;
 
     case "Intern":
