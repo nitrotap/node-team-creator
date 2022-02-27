@@ -129,7 +129,7 @@ let answerArray = []
 let employeeArray = []
 
 async function questions() {
-    console.log("Welcome to node-team-creator!")
+    console.log("Welcome to node-team-creator! Use Ctrl+c to quit.")
     let teamName = await inquirer.prompt({
         type: "input",
         name: "teamName",
@@ -157,8 +157,8 @@ async function questions() {
             confirm = false;
         }
     }
-    let cardHTML = []
 
+    let cardHTML = []
     for (let i in answerArray) {
         switch (answerArray[i].role) {
             case "Manager":
