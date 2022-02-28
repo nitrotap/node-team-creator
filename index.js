@@ -3,7 +3,7 @@
 */
 const inquirer = require('inquirer');
 
-const Employee = require("./lib/Employee")
+// const Employee = require("./lib/Employee")
 const Engineer = require("./lib/Engineer")
 const Intern = require("./lib/Intern")
 const Manager = require("./lib/Manager")
@@ -11,23 +11,16 @@ const Manager = require("./lib/Manager")
 const { generatePage, generateCard } = require("./src/generateHTML.js")
 const { writeFile } = require("./utils/fileWriter.js")
 
-const employeeQuestions = [
-    // role, name, id, email, school, github, officeNumber
-    {
-        type: "list",
-        name: "role",
-        message: "What is the employee's role? (Required)",
-        choices: ["Manager", "Engineer", "Intern"],
-    },
+const engineerQuestions = [
     {
         type: "input",
         name: "name",
-        message: "What is the employee's name? (Required)",
+        message: "What is the engineer's name? (Required)",
         validate: (userInput) => {
             if (userInput) {
                 return true;
             } else {
-                console.log("Please enter the employee's name.");
+                console.log("Please enter the engineer's name.");
                 return false;
             }
         }
@@ -35,7 +28,7 @@ const employeeQuestions = [
     {
         type: "input",
         name: "id",
-        message: "What is the employee's Id? (Required)",
+        message: "What is the engineer's Id? (Required)",
         validate: (userInput) => {
             if (userInput) {
                 return true
@@ -47,26 +40,7 @@ const employeeQuestions = [
     {
         type: "input",
         name: "email",
-        message: "What is the employee's email address? (Required)",
-        validate: (userInput) => {
-            if (userInput) {
-                return true
-            } else {
-                return false;
-            }
-        }
-    },
-    {
-        type: "input",
-        name: "officeNumber",
-        message: "What is the manager's office number? (Required)",
-        when: ({ role }) => {
-            if (role === "Manager") {
-                return true
-            } else {
-                return false
-            }
-        },
+        message: "What is the engineer's email address? (Required)",
         validate: (userInput) => {
             if (userInput) {
                 return true
@@ -79,13 +53,6 @@ const employeeQuestions = [
         type: "input",
         name: "gitHub",
         message: "What is the the engineer's github username? (Required)",
-        when: ({ role }) => {
-            if (role === "Engineer") {
-                return true
-            } else {
-                return false
-            }
-        },
         validate: (userInput) => {
             if (userInput) {
                 return true
@@ -93,19 +60,53 @@ const employeeQuestions = [
                 return false;
             }
         }
+    }
 
+]
+
+
+const internQuestions = [
+    {
+        type: "input",
+        name: "name",
+        message: "What is the intern's name? (Required)",
+        validate: (userInput) => {
+            if (userInput) {
+                return true;
+            } else {
+                console.log("Please enter the intern's name.");
+                return false;
+            }
+        }
+    },
+    {
+        type: "input",
+        name: "id",
+        message: "What is the intern's Id? (Required)",
+        validate: (userInput) => {
+            if (userInput) {
+                return true
+            } else {
+                return false;
+            }
+        }
+    },
+    {
+        type: "input",
+        name: "email",
+        message: "What is the intern's email address? (Required)",
+        validate: (userInput) => {
+            if (userInput) {
+                return true
+            } else {
+                return false;
+            }
+        }
     },
     {
         type: "input",
         name: "school",
         message: "What is the current school the intern is attending? (Required)",
-        when: ({ role }) => {
-            if (role === "Intern") {
-                return true
-            } else {
-                return false
-            }
-        },
         validate: (userInput) => {
             if (userInput) {
                 return true
@@ -116,9 +117,7 @@ const employeeQuestions = [
     }
 ]
 
-let answerArray = []
 let employeeArray = []
-
 async function questions() {
     console.log("Welcome to node-team-creator! Use Ctrl+c to quit.")
     let teamName = await inquirer.prompt({
@@ -135,71 +134,102 @@ async function questions() {
         }
     })
 
-    let confirm = true;
-    while (confirm) {
-        let response = await inquirer.prompt(employeeQuestions)
-        answerArray.push(response)
-        confirm = await inquirer.prompt({
-            type: "confirm",
-            name: "confirmContinue",
-            message: "Do you want to continue adding employees?"
-        })
-        if (!confirm.confirmContinue) {
-            confirm = false;
+    // first ask for team manager
+    let teamManager = await inquirer.prompt([
+        {
+            type: "input",
+            name: "name",
+            message: "What is the team manager's name? (Required)",
+            validate: (userInput) => {
+                if (userInput) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        },
+        {
+            type: "input",
+            name: "id",
+            message: "What is the team manager's Id? (Required)",
+            validate: (userInput) => {
+                if (userInput) {
+                    return true
+                } else {
+                    return false;
+                }
+            }
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "What is the team manager's email address? (Required)",
+            validate: (userInput) => {
+                if (userInput) {
+                    return true
+                } else {
+                    return false;
+                }
+            }
+        },
+        {
+            type: "input",
+            name: "officeNumber",
+            message: "What is the team manager's office number? (Required)",
+            validate: (userInput) => {
+                if (userInput) {
+                    return true
+                } else {
+                    return false;
+                }
+            }
+        }
+    ])
+
+    teamManager = new Manager(teamManager.name, teamManager.id, teamManager.email, teamManager.officeNumber)
+
+    employeeArray.push(teamManager)
+
+    let loop = true;
+    while (loop) {
+        // one prompt for which type of team member
+        let askRole = await inquirer.prompt(
+            {
+                type: "list",
+                name: "role",
+                message: "What type of team member would you like to add? (Required)",
+                choices: ["Engineer", "Intern", "Done adding team members"]
+            }
+        )
+        console.log(askRole.role)
+
+        // based on role, ask
+        switch (askRole.role) {
+            case "Engineer":
+                let engineer = await inquirer.prompt(engineerQuestions)
+                employeeArray.push(new Engineer(engineer.name, engineer.id, engineer.email, engineer.gitHub))
+                break;
+
+            case "Intern":
+                let intern = await inquirer.prompt(internQuestions)
+                employeeArray.push(new Intern(intern.name, intern.id, intern.email, intern.school))
+                break;
+            default:
+                loop = false;
+                break;
         }
     }
 
     let cardHTML = []
-    for (let i in answerArray) {
-        switch (answerArray[i].role) {
-            case "Manager":
-                let manager = new Manager(answerArray[i].name,
-                    answerArray[i].id,
-                    answerArray[i].email,
-                    answerArray[i].officeNumber)
-                employeeArray.push(manager)
 
-                cardHTML.push(generateCard(manager))
-
-                break;
-
-            case "Engineer":
-                let engineer = new Engineer(answerArray[i].name,
-                    answerArray[i].id,
-                    answerArray[i].email,
-                    answerArray[i].gitHub)
-                employeeArray.push(engineer)
-
-                cardHTML.push(generateCard(engineer))
-
-                break;
-
-            case "Intern":
-                let intern = new Intern(answerArray[i].name,
-                    answerArray[i].id,
-                    answerArray[i].email,
-                    answerArray[i].school)
-                employeeArray.push(intern)
-
-                cardHTML.push(generateCard(intern))
-
-                break;
-
-            default:
-
-                let employee = new Employee(answerArray[i].name,
-                    answerArray[i].id,
-                    answerArray[i].email)
-                employeeArray.push(employee)
-
-                cardHTML.push(generateCard(employee))
-
-                break;
-        }
-    }
+    employeeArray.forEach(employee => {
+        cardHTML.push(generateCard(employee))
+    })
 
     let pageHTML = generatePage(cardHTML.join(""), teamName.teamName)
     writeFile(pageHTML)
+
 }
+
 
 questions()
