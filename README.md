@@ -14,6 +14,7 @@ A command-line profile generator using node.js to automatically create personali
 - [Tests](#Tests)
 - [Walk-through Video](#Walk-through)
 - [Screen Shots](#screen-shots)
+- [Sample](#Sample)
 - [Questions](#Questions)
 - [License](#License)
 
@@ -44,6 +45,10 @@ npm run test
 <img src="./assets/images/cli-screen-shot.png" width="50%" height="50%">
 <img src="./assets/images/page-screen-shot.png" width="50%" height="50%">
 <img src="./assets/images/team-creator-walk-through.gif" width="50%" height="50%">
+
+## Sample
+
+[Sample](https://nitrotap.github.io/node-team-creator/)
 
 ## Questions
 
